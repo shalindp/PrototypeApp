@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
 import {View} from 'react-native';
 import {AppColorScheme, useGlobalContext} from '../../lib/common/contexts/GlobalContext';
 import {SCREEN_HEIGHT} from '../../lib/utils/device';
@@ -14,23 +14,20 @@ import {ThirdPartyAuth} from '../../lib/common/components/ThirdPartyAuth';
 import {useRouter} from 'expo-router';
 import {AppRoute} from '../../lib/utils/constants/nav/routes';
 import {FadeIn} from '../../lib/common/components/FadeIn';
-import FadeInOut, {IFadeInOutRefProps} from '../../lib/common/components/FadeInOut';
+import PageTransition, {IFadeInOutRefProps} from '../../lib/common/components/PageTransition';
 
 interface ISignUp {
 
 }
 
 const SignUp: React.FC = () => {
-   const {colorScheme: [cs, sCs]} = useGlobalContext();
+   const {colorScheme: [cs, sCs], pageTransition} = useGlobalContext();
 
    const router = useRouter();
 
-   const fadeInOutRef = useRef<IFadeInOutRefProps>(null);
-
    return (
-      <FadeInOut
-         class="dark w-full flex flex-col justify-start items-center h-full px-3 py-10"
-         ref={fadeInOutRef}
+      <View
+         className="dark w-full flex flex-col justify-start items-center h-full px-3 py-10"
       >
          <View className='mb-16'>
             <Logo width={42} height={42}/>
@@ -59,12 +56,11 @@ const SignUp: React.FC = () => {
             <View className=''>
                <ThirdPartyAuth prefixText='Or, Join with...' postfixText='Ready to connect with new people?'
                   postfixInlineSlot={<AppInteractiveLabel class="p-2" onPress={() => {
-                     fadeInOutRef.current.fadeOut();
-                     router.push(AppRoute.SignIn);
+                     pageTransition.current.transition(()=>router.push(AppRoute.SignIn));
                   }}>{'Sign in.'}</AppInteractiveLabel>}/>
             </View>
          </View>
-      </FadeInOut>);
+      </View>);
 };
 
 export default SignUp;

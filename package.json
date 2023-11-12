@@ -29,7 +29,8 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "^13.14.0",
     "react-native-web": "^0.19.9",
-    "tailwind-merge": "^2.0.0"
+    "tailwind-merge": "^2.0.0",
+    "yarn-check": "^0.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
