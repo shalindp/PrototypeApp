@@ -45,7 +45,7 @@ export const AppInputField: React.FC<IAppInputField> = (props) => {
          onPress={() => textInputRef.current.focus()}>
          <View className='h-8 flex flex-row justify-between items-center w-full gap-2'>
             {props.prefix && <Prefix animatedprops={animatedProps} />}
-            <TextInput className='flex-1 h-full'
+            <TextInput className='flex-1 h-full text-[15px]'
                placeholder={props.placeholder}
                ref={textInputRef}
                onFocus={onFocus}

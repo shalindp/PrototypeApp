@@ -1,5 +1,6 @@
 interface IAppColors {
    main: Record<number, string>,
+   secondary: Record<number, string>
    stone: Record<number, string>
 }
 
@@ -9,7 +10,19 @@ export const AppColors:IAppColors ={
       200: '#fff',
       300: '#fff',
       400: '#fff',
-      500: '#6E3FFE',
+      500: '#7965FF',
+      // 500: '#414792',
+      600: '#fff',
+      700: '#fff',
+      800: '#fff',
+      900: '#fff',
+   },
+   secondary:{
+      100: '#fff',
+      200: '#fff',
+      300: '#fff',
+      400: '#fff',
+      500: '#000066',
       600: '#fff',
       700: '#fff',
       800: '#fff',

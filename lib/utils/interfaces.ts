@@ -5,7 +5,8 @@ import { AppFont } from './constants/styles/AppFont';
 export enum ComponentState {
    Default=0,
    Disabled=1,
-   Loading =2,
+   Active = 2,
+   Loading =3,
 }
 export interface IAppComponent {
    class?: string

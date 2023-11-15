@@ -8,7 +8,10 @@ module.exports = {
             satoshi: 'Satoshi-Bold'
          },
          colors: {
-            main: { 500: '#6E3FFE' },
+            main: {
+               500: '#7965FF',
+               400: '#DB92FD',
+               300: '#362b48',},
             stone: {
                350: '#cecbc9'
             },

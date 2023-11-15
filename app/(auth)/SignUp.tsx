@@ -27,14 +27,15 @@ const SignUp: React.FC = () => {
 
    return (
       <View
-         className="dark w-full flex flex-col justify-start items-center h-full px-3 py-10"
+         className="dark w-full flex flex-col justify-start items-center h-full px-3 py-10 self-center"
+         style={{maxWidth: 450}}
       >
          <View className='mb-16'>
             <Logo width={42} height={42}/>
          </View>
          <View className='self-start flex flex-col gap-y-2 mb-16'>
             <AppText frontFamily={AppFont.SatoshiMedium} class='text-3xl mb-2'>{'Join'}</AppText>
-            <AppText class='text-stone-500 text-md'>{'Hello there! Let\'s get in back to it'}</AppText>
+            <AppText class='text-stone-500 text-[16px]'>{'Discover timeless connections.'}</AppText>
          </View>
          <View className='flex flex-col w-full'>
             <AppInputField prefix={EmailIcon} placeholder='email' class='mb-8'/>
@@ -49,13 +50,13 @@ const SignUp: React.FC = () => {
                   </AppInteractiveLabel>
                }
             />
-            <AppCheckBox label='Remember me' class='self-end mb-8' onChange={() => {
+            <AppCheckBox label='Agree to terms & conditions' class='self-end mb-8' onChange={() => {
             }}/>
-            <AppButton class='mb-16' text="Create" onClick={async () => {
+            <AppButton class='mb-16' text="Join" onClick={async () => {
             }}/>
             <View className=''>
-               <ThirdPartyAuth prefixText='Or, Join with...' postfixText='Ready to connect with new people?'
-                  postfixInlineSlot={<AppInteractiveLabel class="p-2" onPress={() => {
+               <ThirdPartyAuth prefixText='Or, Join with...' postfixText='Already have an account? '
+                  postfixInlineSlot={<AppInteractiveLabel onPress={() => {
                      pageTransition.current.transition(()=>router.push(AppRoute.SignIn));
                   }}>{'Sign in.'}</AppInteractiveLabel>}/>
             </View>

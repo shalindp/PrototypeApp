@@ -28,13 +28,13 @@ export const AppCheckBox: React.FC<IAppCheckBox> = (props) => {
    };
 
    return <TouchableOpacity
-      className={twMerge('h-12 p-4 flex flex-row w-fit justify-center items-center rounded-full', props.class)}
+      className={twMerge('h-14 p-4 flex flex-row w-fit justify-center items-center rounded-full', props.class)}
       onPress={handleState}>
       <View className='w-6 h-6 rounded-full border-2 border-stone-350 flex items-center justify-center mr-2'>
          <Animated.View className='w-4 h-4 rounded-full'
             //@ts-ignore
             style={{ backgroundColor: activeColorDelta }} />
       </View>
-      <AppText>{props.label}</AppText>
+      <AppText className="h-12">{props.label}</AppText>
    </TouchableOpacity>;
 };

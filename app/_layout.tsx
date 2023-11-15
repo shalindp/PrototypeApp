@@ -1,13 +1,13 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {useFonts} from 'expo-font';
+import React, { useEffect, useRef, useState } from 'react';
+import { useFonts } from 'expo-font';
 import '../global.css';
-import {Stack, Tabs} from 'expo-router';
-import {GlobalContextProvider} from '../lib/common/contexts/GlobalContext';
-import {AppText} from '../lib/common/components/AppText';
-import {twMerge} from 'tailwind-merge';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {isIos, SCREEN_HEIGHT, SCREEN_WIDTH} from '../lib/utils/device';
-import {Keyboard, KeyboardAvoidingView, ScrollView, View} from 'react-native';
+import { Stack, Tabs } from 'expo-router';
+import { GlobalContextProvider } from '../lib/common/contexts/GlobalContext';
+import { AppText } from '../lib/common/components/AppText';
+import { twMerge } from 'tailwind-merge';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { isIos, SCREEN_HEIGHT, SCREEN_WIDTH } from '../lib/utils/device';
+import { Keyboard, KeyboardAvoidingView, SafeAreaView, ScrollView, View } from 'react-native';
 import PageTransition, { IFadeInOutRefProps } from '../lib/common/components/PageTransition';
 
 // Ensure we import the CSS for Tailwind so it's included in hot module reloads.
@@ -15,7 +15,7 @@ import PageTransition, { IFadeInOutRefProps } from '../lib/common/components/Pag
 const ctx = require.context(
    // If this require.context is not inside the root directory (next to the package.json) then adjust this file path
    // to resolve correctly.
-   '../node_modules/.cache/expo/tailwind',
+   '../node_modules/.cache/expo/tailwind'
 );
 if (ctx.keys().length) ctx(ctx.keys()[0]);
 export default function AppEntry() {
@@ -34,22 +34,22 @@ export default function AppEntry() {
    }
 
    return <>
-      <PageTransition ref={pageTransitionRef}/>
+      <PageTransition ref={pageTransitionRef} />
       <GlobalContextProvider pageTransitionRef={pageTransitionRef}>
-         <GestureHandlerRootView className="flex justify-center items-center">
+         <GestureHandlerRootView className='flex justify-center items-center'>
             <KeyboardAvoidingView
-               behavior="height"
+               behavior='height'
             >
-               <ScrollView>
-                  <View style={{height: SCREEN_HEIGHT, width: SCREEN_WIDTH, maxWidth: 450}}>
+               <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+                  <SafeAreaView style={{ height: SCREEN_HEIGHT, width: SCREEN_WIDTH}}>
                      <Stack screenOptions={{
                         headerShown: false,
                         header: () => null,
-                        contentStyle: {backgroundColor: 'white'},
+                        contentStyle: { backgroundColor: 'white' }
                      }}>
-                        <Tabs.Screen name="(auth)"/>
+                        <Tabs.Screen name='(auth)' />
                      </Stack>
-                  </View>
+                  </SafeAreaView>
                </ScrollView>
             </KeyboardAvoidingView>
          </GestureHandlerRootView>
