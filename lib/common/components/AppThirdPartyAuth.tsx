@@ -10,7 +10,7 @@ interface IThirdPartAuth extends IAppComponent {
   postfixInlineSlot?: ReactNode;
 }
 
-export const ThirdPartyAuth: FC<IThirdPartAuth> = (props) => {
+export const AppThirdPartyAuth: FC<IThirdPartAuth> = (props) => {
    return <View className='flex flex-col justify-center items-center w-full gap-y-8'>
       {props.prefixText && <AppText class='text-stone-500'>{props.prefixText}</AppText>}
       <View className='flex-row justify-between px-8 w-full'>

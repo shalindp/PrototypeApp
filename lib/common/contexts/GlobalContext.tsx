@@ -1,5 +1,5 @@
 import React, { createContext, PropsWithChildren, useContext, useEffect, useRef, useState } from 'react';
-import { IFadeInOutRefProps } from '../components/PageTransition';
+import { IFadeInOutRefProps } from '../components/AppPageTransition';
 
 export enum AppColorScheme {
   LIGHT = 'light',

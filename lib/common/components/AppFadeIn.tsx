@@ -3,11 +3,10 @@ import {ComponentState, IAppComponent} from '../../utils/interfaces';
 import Animated, {useSharedValue, withRepeat, withTiming, Easing} from 'react-native-reanimated';
 import {twMerge} from 'tailwind-merge';
 
-
 interface IFadeIn extends IAppComponent{
     duration?: number
 }
-export const FadeIn:FC<PropsWithChildren<IFadeIn>> = (props)=>{
+export const AppFadeIn:FC<PropsWithChildren<IFadeIn>> = (props)=>{
    const opacityDelta = useSharedValue<number>(0);
 
    useEffect(() => {

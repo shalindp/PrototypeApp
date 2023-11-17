@@ -8,7 +8,7 @@ import { ComponentState, IAppComponent } from '../../utils/interfaces';
 import React, { FC, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-export const GenderIdentityToggle:FC<IAppComponent> = (props) => {
+export const AppGenderIdentityToggle:FC<IAppComponent> = (props) => {
    const xPosDelta = useSharedValue<number>(0);
    const [state, sState] = useState<ComponentState>(ComponentState.Active);
 

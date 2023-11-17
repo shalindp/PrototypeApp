@@ -8,7 +8,8 @@ import { twMerge } from 'tailwind-merge';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { isIos, SCREEN_HEIGHT, SCREEN_WIDTH } from '../lib/utils/device';
 import { Keyboard, KeyboardAvoidingView, SafeAreaView, ScrollView, View } from 'react-native';
-import PageTransition, { IFadeInOutRefProps } from '../lib/common/components/PageTransition';
+import AppPageTransition, { IFadeInOutRefProps } from '../lib/common/components/AppPageTransition';
+import { AppBottomSheet } from '../lib/common/components/AppBottomSheet';
 
 // Ensure we import the CSS for Tailwind so it's included in hot module reloads.
 //@ts-ignore
@@ -34,14 +35,14 @@ export default function AppEntry() {
    }
 
    return <>
-      <PageTransition ref={pageTransitionRef} />
+      <AppPageTransition ref={pageTransitionRef} />
       <GlobalContextProvider pageTransitionRef={pageTransitionRef}>
          <GestureHandlerRootView className='flex justify-center items-center'>
             <KeyboardAvoidingView
                behavior='height'
             >
                <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
-                  <SafeAreaView style={{ height: SCREEN_HEIGHT, width: SCREEN_WIDTH}}>
+                  <SafeAreaView style={{ height: SCREEN_HEIGHT, width: SCREEN_WIDTH }}>
                      <Stack screenOptions={{
                         headerShown: false,
                         header: () => null,
@@ -52,6 +53,7 @@ export default function AppEntry() {
                   </SafeAreaView>
                </ScrollView>
             </KeyboardAvoidingView>
+            <AppBottomSheet />
          </GestureHandlerRootView>
       </GlobalContextProvider>
    </>;

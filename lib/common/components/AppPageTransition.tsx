@@ -15,7 +15,7 @@ interface IFadeInOutProps extends IAppComponent {
 
 const DURATION = 650;
 // eslint-disable-next-line react/display-name
-const PageTransition = forwardRef<IFadeInOutRefProps, IFadeInOutProps>((props, ref) => {
+const AppPageTransition = forwardRef<IFadeInOutRefProps, IFadeInOutProps>((props, ref) => {
    const opacityDelta = useSharedValue<number>(1);
 
    useEffect(() => {
@@ -43,4 +43,4 @@ const PageTransition = forwardRef<IFadeInOutRefProps, IFadeInOutProps>((props, r
          { position: 'absolute', height: SCREEN_HEIGHT, width: SCREEN_WIDTH, zIndex: 10, pointerEvents: 'none', backgroundColor: AppColors.stone[100]},
          { opacity: opacityDelta }]} />;
 });
-export default PageTransition;
+export default AppPageTransition;

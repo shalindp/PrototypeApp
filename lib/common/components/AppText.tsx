@@ -6,7 +6,6 @@ import { IAppComponent } from '../../utils/interfaces';
 import { AppFont } from '../../utils/constants/styles/AppFont';
 
 interface IAppText extends TextProps, IAppComponent {
-
 }
 
 export const AppText: React.FC<IAppText> = (props) => {

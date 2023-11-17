@@ -3,10 +3,10 @@ import React, {FC, useState} from 'react';
 import {TouchableOpacity} from 'react-native';
 import {AppColors} from '../../utils/constants/styles/AppColors';
 import {twMerge} from 'tailwind-merge';
-import {Spinner} from './Spinner';
+import {AppSpinner} from './AppSpinner';
 import {AppText} from './AppText';
 import {AppFont} from '../../utils/constants/styles/AppFont';
-import {FadeIn} from './FadeIn';
+import {AppFadeIn} from './AppFadeIn';
 
 export interface IAppButton extends IAppComponent {
     text: string;
@@ -33,11 +33,11 @@ export const AppButton: FC<IAppButton> = (props) => {
       }}
       onPress={onClick}
    >
-      {state === ComponentState.Loading && <Spinner/>}
+      {state === ComponentState.Loading && <AppSpinner/>}
       {state !== ComponentState.Loading &&
-            <FadeIn duration={5000}>
+            <AppFadeIn duration={5000}>
                <AppText class='text-stone-200 text-lg' frontFamily={AppFont.SatoshiMedium}>{props.text}</AppText>
-            </FadeIn>
+            </AppFadeIn>
       }
    </TouchableOpacity>;
 };
