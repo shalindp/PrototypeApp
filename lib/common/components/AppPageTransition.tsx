@@ -28,7 +28,6 @@ const AppPageTransition = forwardRef<IFadeInOutRefProps, IFadeInOutProps>((props
          transitionMount();
       };
       opacityDelta.value = withTiming(1, {duration: DURATION}, () => runOnJS(wrapper)());
-
    };
 
    const transitionMount = () => {
