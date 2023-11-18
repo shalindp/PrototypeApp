@@ -1,17 +1,18 @@
 import React, { forwardRef, ReactNode, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { Dimensions, View, ViewStyle } from 'react-native';
+import { Dimensions, View, ViewStyle, StyleSheet, ViewProps } from 'react-native';
 import { AppRadii } from '../../utils/constants/styles/AppRadii';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
    Extrapolation,
-   interpolate,
+   interpolate, useAnimatedProps,
    useAnimatedStyle,
    useSharedValue,
-   withSpring
+   withSpring, withTiming
 } from 'react-native-reanimated';
 import { IAppComponent } from '../../utils/interfaces';
 import { AppText } from './AppText';
 import { areObjectEqual } from '../../utils/functions';
+import { AppColors } from '../../utils/constants/styles/AppColors';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 const DELTA_Y_MAX = -SCREEN_HEIGHT;
@@ -21,12 +22,12 @@ interface IBottomSheet extends IAppComponent {
 }
 
 export interface IBottomSheetRefProps {
-   open: ()=>void;
-   setContent: (content: ReactNode)=>void;
+   open: () => void;
+   setContent: (content: ReactNode) => void;
 }
 
 // eslint-disable-next-line react/display-name
-const AppBottomSheet  = forwardRef<IBottomSheetRefProps, IBottomSheet>((props, ref) => {
+const AppBottomSheet = forwardRef<IBottomSheetRefProps, IBottomSheet>((props, ref) => {
    const context = useSharedValue<{ y: number }>({ y: 0 });
    const yDelta = useSharedValue<number>(0);
    const isOpen = useSharedValue<boolean>(false);
@@ -52,20 +53,20 @@ const AppBottomSheet  = forwardRef<IBottomSheetRefProps, IBottomSheet>((props, r
             snapTo(0);
          } else if (yDelta.value < -SCREEN_HEIGHT / 1.5) {
             snapTo(DELTA_Y_MAX);
-         }else {
+         } else {
             snapTo(-SCREEN_HEIGHT / 2);
          }
       });
 
-   const open = ()=>{
-      if(isOpen.value){
+   const open = () => {
+      if (isOpen.value) {
          snapTo(0);
-      }else {
+      } else {
          snapTo(-SCREEN_HEIGHT / 3);
       }
    };
 
-   const setContent = (content:ReactNode)=>{
+   const setContent = (content: ReactNode) => {
       sContent(content);
    };
 
@@ -83,21 +84,40 @@ const AppBottomSheet  = forwardRef<IBottomSheetRefProps, IBottomSheet>((props, r
       };
    });
 
-   return <GestureDetector gesture={gesture}>
+   const rBackdropStyle = useAnimatedStyle(() => {
+      return {
+         opacity: withTiming(isOpen.value ? 1 : 0)
+      };
+   }, []);
+
+   const rBackdropProps = useAnimatedProps<Partial<Animated.AnimateProps<ViewProps>>>(() => {
+      return {
+         pointerEvents: isOpen.value ? 'auto' : 'none'
+      };
+   }, []);
+
+   return <>
       <Animated.View
-         className='bg-stone-200'
-         style={[{
-            height: SCREEN_HEIGHT,
-            width: '100%',
-            position: 'absolute',
-            top: SCREEN_HEIGHT
-         }, animStyles]}>
-         <View
-            className='bg-stone-500 w-20 h-1 my-5 rounded-full self-center'
-         />
-         {content}
-      </Animated.View>
-   </GestureDetector>;
+         style={[{ ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,.4)' }, rBackdropStyle]}
+         animatedProps={rBackdropProps}
+         onTouchStart={()=>{snapTo(0);}}
+      />
+      <GestureDetector gesture={gesture}>
+         <Animated.View
+            style={[{
+               height: SCREEN_HEIGHT,
+               width: '100%',
+               position: 'absolute',
+               top: SCREEN_HEIGHT,
+               backgroundColor: AppColors.stone[150]
+            }, animStyles]}>
+            <View
+               className='bg-stone-500 w-20 h-1 my-5 rounded-full self-center'
+            />
+            {content}
+         </Animated.View>
+      </GestureDetector>
+   </>;
 });
 
 export default AppBottomSheet;

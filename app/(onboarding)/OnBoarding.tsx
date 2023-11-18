@@ -24,7 +24,6 @@ const OnBoarding = () => {
 
    const scrollHandler = useAnimatedScrollHandler((c) => {
       translateXDelta.value = c.contentOffset.x;
-      console.log('@>', c.contentOffset.x);
    });
 
    const activeIndex = useDerivedValue(() => {
@@ -52,9 +51,9 @@ const OnBoarding = () => {
          <Age />
          <Interests />
       </Animated.ScrollView>
-      <AppPaginationIndicator count={Pages.length} translateXDelta={translateXDelta} />
+      <AppPaginationIndicator count={Pages.length} translateXDelta={translateXDelta} class="mb-16" />
       <AppRoundedButton
-         icon='arrow-forward-circle'
+         icon='md-chevron-forward-circle'
          class='self-end mr-10 mb-10'
          onPress={onScroll} />
    </View>;

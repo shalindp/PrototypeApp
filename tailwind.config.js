@@ -13,6 +13,7 @@ module.exports = {
                400: '#DB92FD',
                300: '#362b48',},
             stone: {
+               150: '#ea0000',
                350: '#cecbc9'
             },
             darkMode:{

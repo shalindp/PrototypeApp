@@ -30,6 +30,7 @@ export const AppColors:IAppColors ={
    },
    stone: {
       100: '#f5f5f4',
+      150: '#efefee',
       200: '#e7e5e4',
       300: '#d6d3d1',
       350: '#cecbc9',

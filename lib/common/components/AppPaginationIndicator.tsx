@@ -4,6 +4,7 @@ import React, { FC, useCallback } from 'react';
 import Animated, { interpolate, useAnimatedStyle } from 'react-native-reanimated';
 import { SCREEN_WIDTH } from '../../utils/device';
 import { AppColors } from '../../utils/constants/styles/AppColors';
+import { twMerge } from 'tailwind-merge';
 
 interface IAppPaginationIndicator extends IAppComponent {
    count: number;
@@ -45,7 +46,7 @@ export const AppPaginationIndicator: FC<IAppPaginationIndicator> = (props) => {
          translateXDelta={props.translateXDelta} />);
    }, []);
 
-   return <View className='w-full flex flex-row justify-center items-center'>
+   return <View className={twMerge('w-full flex flex-row justify-center items-center', props.class)}>
       {items().map(c => c)}
    </View>;
 };
