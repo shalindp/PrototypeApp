@@ -47,11 +47,13 @@ const AppBottomSheet  = forwardRef<IBottomSheetRefProps, IBottomSheet>((props, r
          yDelta.value = e.translationY + context.value.y;
          yDelta.value = Math.max(yDelta.value, DELTA_Y_MAX);
       }).onEnd((e) => {
-         //close
          if (yDelta.value > -SCREEN_HEIGHT / 3) {
+            //close
             snapTo(0);
          } else if (yDelta.value < -SCREEN_HEIGHT / 1.5) {
             snapTo(DELTA_Y_MAX);
+         }else {
+            snapTo(-SCREEN_HEIGHT / 2);
          }
       });
 
@@ -59,7 +61,7 @@ const AppBottomSheet  = forwardRef<IBottomSheetRefProps, IBottomSheet>((props, r
       if(isOpen.value){
          snapTo(0);
       }else {
-         snapTo(-200);
+         snapTo(-SCREEN_HEIGHT / 3);
       }
    };
 
@@ -80,8 +82,6 @@ const AppBottomSheet  = forwardRef<IBottomSheetRefProps, IBottomSheet>((props, r
          borderStartEndRadius: radius
       };
    });
-
-   console.log('@> rerender');
 
    return <GestureDetector gesture={gesture}>
       <Animated.View

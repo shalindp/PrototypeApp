@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../utils/device';
 import { IAppComponent } from '../utils/interfaces';
 import { twMerge } from 'tailwind-merge';
@@ -8,6 +8,9 @@ import { AppText } from '../common/components/AppText';
 import { AppFont } from '../utils/constants/styles/AppFont';
 import { AppInteractiveLabel } from '../common/components/AppInteractiveLabel';
 import { useGlobalContext } from '../common/contexts/GlobalContext';
+import { Ionicons } from '@expo/vector-icons';
+import { AppColors } from '../utils/constants/styles/AppColors';
+import { AppRoundedButton } from '../common/components/AppRoundedButton';
 
 interface IGenderIdentity extends IAppComponent {
 

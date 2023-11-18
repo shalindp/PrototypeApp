@@ -16,9 +16,5 @@ export const delay = (time:number)=>{
 };
 
 export const areObjectEqual= (o: any, u: any)=>{
-   console.log('@> o',JSON.stringify(o));
-   console.log('@> u',JSON.stringify(u));
-   console.log('@> 3',JSON.stringify(u)===JSON.stringify(o));
-
    return JSON.stringify(o) === JSON.stringify(u);
 };
