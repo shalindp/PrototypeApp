@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { ScrollView, View } from 'react-native';
 import { GenderIdentity } from '../../lib/on-boarding/GenderIdentity';
 import { Age, IAgeRef } from '../../lib/on-boarding/Age';
@@ -21,6 +21,12 @@ const Pages = [
 const OnBoarding = () => {
    const translateXDelta = useSharedValue<number>(0);
    const scrollRef = useAnimatedRef<Animated.ScrollView>();
+
+   useEffect(() => {
+      setTimeout(()=>{
+         scrollRef.current.scrollTo({ x: SCREEN_WIDTH * (activeIndex.value + 2) });
+      },1000);
+   }, []);
 
    const ageRef = useRef<IAgeRef>(null);
 

@@ -155,8 +155,8 @@ export const Age = forwardRef<IAgeRef, IAge>((props, ref) => {
                ref={yearInputRef}
                onChangeText={(c) => onText(c, 'year')} />
          </View>
-         <Animated.View className='bg-stone-350 w-full h-[.8px]' style={rStyleUnderLine} />
-         <AppTextError text='' ref={error} />
+         <Animated.View className='bg-stone-350 w-full h-[1px] mb-8' style={rStyleUnderLine} />
+         <AppTextError class="self-center" text='' ref={error} />
       </View>
    </View>;
 });
