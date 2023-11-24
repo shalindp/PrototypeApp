@@ -7,38 +7,30 @@ import { AppSpinner } from './AppSpinner';
 import { AppText } from './AppText';
 import { AppFont } from '../../utils/constants/styles/AppFont';
 import { AppFadeIn } from './AppFadeIn';
-import { UseMutationOptions } from '@tanstack/react-query/src/types';
-import { DefaultError } from '@tanstack/query-core';
 import { useMutation } from '@tanstack/react-query';
-import { SignUpRequest } from '../../api/app/client';
+import { IMutate } from '../../api/app';
 
 export interface IAppButton extends IAppComponent {
    text: string;
    onClick: () => Promise<any>;
-   foo?: ICustom<unknown, unknown, unknown, any>
-}
-
-export interface ICustom<TRequest, TSuccessResponse, TErrorResponse, TRequestParam> {
-   mutateFn: (req: TRequest)=> Promise<TSuccessResponse>,
-   requestValues: React.MutableRefObject<TRequestParam>,
-   onError: (e: TErrorResponse) => void,
-   onSuccess: (result: TSuccessResponse)=> void;
+   mutate?: IMutate<unknown, unknown, unknown, any>;
 }
 
 export const AppButton: FC<IAppButton> = (props) => {
-   const [state, sState] = useState<ComponentState>(props.state);
+   const [state, sState] = useState<ComponentState>(props.state || ComponentState.Default);
 
-   const mut = useMutation(props.foo?{
-      mutationFn: props.foo.mutateFn,
-      onSuccess: props.foo.onSuccess,
-      onError: props.foo.onError
-   }:{});
+   const { mutateAsync } = useMutation(props.mutate ? {
+      mutationFn: props.mutate.mutateFn,
+      onSuccess: props.mutate.onSuccess,
+      onError: props.mutate.onError
+   } : {});
 
    const onClick = async () => {
       try {
          sState(ComponentState.Loading);
-         console.log('IN BUT', props?.foo?.requestValues);
-         await mut.mutateAsync(props?.foo?.requestValues.current);
+         if (props.mutate) {
+            await mutateAsync(props.mutate.requestValues.current);
+         }
          await props.onClick();
       } catch { /* empty */
       } finally {

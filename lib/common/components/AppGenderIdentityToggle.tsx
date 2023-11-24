@@ -28,7 +28,7 @@ export const AppGenderIdentityToggle:FC<IAppComponent> = (props) => {
       style={{ width: 180, height: 60, borderWidth: 2, borderColor: AppColors.stone[200] }}
    >
       <Animated.View className='bg-main-500 absolute h-[56px] w-[86px] rounded-full flex justify-center items-center'
-         style={[{ borderRadius: isAndroid && AppRadii.sm }, { right: xPosDelta }]} />
+         style={[{ borderRadius: isAndroid ? AppRadii.sm: undefined }, { right: xPosDelta }]} />
       <View className='z-5 w-full h-full justify-around items-center flex flex-row'>
          <Ionicons name='ios-male-sharp' className='z-5' size={24}
             color={state === ComponentState.Active ? AppColors.main[500] : AppColors.stone[100]} />

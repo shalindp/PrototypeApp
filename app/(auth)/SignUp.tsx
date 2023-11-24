@@ -13,8 +13,7 @@ import { AppFadeIn } from '../../lib/common/components/AppFadeIn';
 import { AppInteractiveLabel } from '../../lib/common/components/AppInteractiveLabel';
 import { AppInputField } from '../../lib/common/components/AppInputField';
 import { AppCheckBox } from '../../lib/common/components/AppCheckBox';
-import { AppButton, ICustom } from '../../lib/common/components/AppButton';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { AppButton } from '../../lib/common/components/AppButton';
 import {
    AuthenticationResponse,
    Client,
@@ -24,6 +23,7 @@ import {
    ValidationResult
 } from '../../lib/api/app/client';
 import { useMutateWithNoReRender } from '../../lib/common/hooks/useMutateWithNoReRender';
+import { IMutate } from '../../lib/api/app';
 
 interface ISignUp {
 
@@ -33,16 +33,16 @@ const SignUp: React.FC = () => {
    const { colorScheme: [cs, sCs], pageTransition, appApClient } = useGlobalContext();
    const router = useRouter();
 
-   const form = useRef<ISignUpRequest>({ email: null, password: null });
+   const form = useRef<ISignUpRequest>({ email: '', password: '' });
 
-   const x: ICustom<SignUpRequest, AuthenticationResponse, ValidationResult, ISignUpRequest> ={
+   const signUpMutation: IMutate<SignUpRequest, ISignUpRequest, AuthenticationResponse, ValidationResult> ={
       mutateFn: (r)=> appApClient.signUp(r),
       requestValues: form,
       onError: (e)=> console.log(e),
       onSuccess: (s)=> console.log(s)
    };
 
-   console.log('@> render');
+   console.log('@> render', signUpMutation);
    return (
       <View
          className='dark w-full flex flex-col justify-start items-center h-full px-3 py-10 self-center'
@@ -76,7 +76,7 @@ const SignUp: React.FC = () => {
             <AppCheckBox label='Agree to terms & conditions' class='self-end mb-8' onChange={() => {
             }} />
             <AppButton
-               foo={x}
+               mutate={signUpMutation}
                class='mb-16' text='Join' onClick={async () => {
                }}
             />

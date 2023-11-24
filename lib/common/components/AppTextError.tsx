@@ -19,21 +19,21 @@ interface IAppTextError extends TextProps, IAppComponent {
 }
 
 export interface IAppTextErrorRef {
-   setError: (text?: string)=>void;
+   setError: (text?: string) => void;
 }
 
 // eslint-disable-next-line react/display-name
 export const AppTextError = forwardRef<IAppTextErrorRef, IAppTextError>((props, ref) => {
    const posDelta = useSharedValue<number>(0);
-   const [state, sState] = useState<string>(props.text);
+   const [state, sState] = useState<string | undefined>(props.text);
 
-   const animate = useCallback( () => {
+   const animate = useCallback(() => {
       posDelta.value =
          withSequence(
-            withTiming(-3, { duration: 50 , easing: Easing.linear}),
-            withTiming(0, { duration: 50 , easing: Easing.linear}),
-            withTiming(3, { duration: 50 , easing: Easing.linear}),
-            withTiming(0, { duration: 50 , easing: Easing.linear})
+            withTiming(-3, { duration: 50, easing: Easing.linear }),
+            withTiming(0, { duration: 50, easing: Easing.linear }),
+            withTiming(3, { duration: 50, easing: Easing.linear }),
+            withTiming(0, { duration: 50, easing: Easing.linear })
          );
    }, []);
 
@@ -45,14 +45,14 @@ export const AppTextError = forwardRef<IAppTextErrorRef, IAppTextError>((props, 
 
 
    const setError = useCallback(
-      (text?:string) => {
+      (text?: string) => {
          sState(text);
          animate();
       },
       [state]
    );
 
-   useImperativeHandle(ref, () => ({setError}), []);
+   useImperativeHandle(ref, () => ({ setError }), []);
 
    return <Animated.Text {...props} style={[{ fontFamily: props.frontFamily || AppFont.SatoshiMedium }, rStyle]}
       className={twMerge('select-none text-red-400 text-[15px]', props.class)}>{state}</Animated.Text>;
