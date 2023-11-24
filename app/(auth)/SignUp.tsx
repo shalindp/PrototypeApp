@@ -13,9 +13,17 @@ import { AppFadeIn } from '../../lib/common/components/AppFadeIn';
 import { AppInteractiveLabel } from '../../lib/common/components/AppInteractiveLabel';
 import { AppInputField } from '../../lib/common/components/AppInputField';
 import { AppCheckBox } from '../../lib/common/components/AppCheckBox';
-import { AppButton } from '../../lib/common/components/AppButton';
+import { AppButton, ICustom } from '../../lib/common/components/AppButton';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Client, ISignUpRequest, SignInRequest, SignUpRequest } from '../../lib/api/app/client';
+import {
+   AuthenticationResponse,
+   Client,
+   ISignUpRequest,
+   SignInRequest,
+   SignUpRequest,
+   ValidationResult
+} from '../../lib/api/app/client';
+import { useMutateWithNoReRender } from '../../lib/common/hooks/useMutateWithNoReRender';
 
 interface ISignUp {
 
@@ -27,13 +35,14 @@ const SignUp: React.FC = () => {
 
    const form = useRef<ISignUpRequest>({ email: null, password: null });
 
-   const  mutation = useMutation({
-      mutationFn:  (request:SignUpRequest) => appApClient.signUp(request),
-      onError: (e)=>console.log('@>',e),
-      onSuccess: (e)=>console.log('@> resp',e)
-   });
+   const x: ICustom<SignUpRequest, AuthenticationResponse, ValidationResult, ISignUpRequest> ={
+      mutateFn: (r)=> appApClient.signUp(r),
+      requestValues: form,
+      onError: (e)=> console.log(e),
+      onSuccess: (s)=> console.log(s)
+   };
 
-
+   console.log('@> render');
    return (
       <View
          className='dark w-full flex flex-col justify-start items-center h-full px-3 py-10 self-center'
@@ -66,11 +75,11 @@ const SignUp: React.FC = () => {
             />
             <AppCheckBox label='Agree to terms & conditions' class='self-end mb-8' onChange={() => {
             }} />
-            <AppButton class='mb-16' text='Join' onClick={async () => {
-               console.log('@>', form.current);
-               // await fetchData();
-               mutation.mutate(new SignUpRequest({email: form.current.email, password: form.current.password}));
-            }} />
+            <AppButton
+               foo={x}
+               class='mb-16' text='Join' onClick={async () => {
+               }}
+            />
             <View className=''>
                <AppThirdPartyAuth prefixText='Or, Join with...' postfixText='Already have an account? '
                   postfixInlineSlot={<AppInteractiveLabel onPress={() => {
