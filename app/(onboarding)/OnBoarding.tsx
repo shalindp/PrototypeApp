@@ -23,9 +23,9 @@ const OnBoarding = () => {
    const scrollRef = useAnimatedRef<Animated.ScrollView>();
 
    useEffect(() => {
-      setTimeout(()=>{
-         scrollRef.current.scrollTo({ x: SCREEN_WIDTH * (activeIndex.value + 2) });
-      },1000);
+      // setTimeout(()=>{
+      //    scrollRef.current.scrollTo({ x: SCREEN_WIDTH * (activeIndex.value + 2) });
+      // },1000);
    }, []);
 
    const ageRef = useRef<IAgeRef>(null);

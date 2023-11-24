@@ -11,22 +11,36 @@ import { useGlobalContext } from '../common/contexts/GlobalContext';
 import { Ionicons } from '@expo/vector-icons';
 import { AppColors } from '../utils/constants/styles/AppColors';
 import { AppRoundedButton } from '../common/components/AppRoundedButton';
+import { GenderList } from './GenderList';
 
 interface IGenderIdentity extends IAppComponent {
 
 }
+
 export const GenderIdentity: FC<IGenderIdentity> = (props) => {
-   const {bottomSheet} = useGlobalContext();
+   const { bottomSheet } = useGlobalContext();
 
    useEffect(() => {
-      bottomSheet.current.setContent(<AppText>{'Hello'}</AppText>);
+      bottomSheet.current.setContent(<GenderList
+         items={[
+            { id: 1, label: 'g1' },
+            { id: 2, label: 'g1' },
+            { id: 2, label: 'g1' },
+            { id: 2, label: 'g1' },
+            { id: 2, label: 'g1' },
+            { id: 2, label: 'g1' },
+            { id: 2, label: 'g1' },
+            { id: 2, label: 'g1' },
+            { id: 2, label: 'g1' },
+            { id: 2, label: 'g1' }]} />
+      );
    }, []);
 
    return <View className={twMerge('flex justify-center items-center -mt-16', props.class)}
       style={{ height: SCREEN_HEIGHT, width: SCREEN_WIDTH }}>
       <AppText frontFamily={AppFont.SatoshiMedium} class='text-xl mb-16'>{'Who do you identity as?'}</AppText>
       {/*<AppInfoText class="mb-16" text={'You\'re welcome to change this anytime.'}/>*/}
-      <AppGenderIdentityToggle class="mb-16"/>
-      <AppInteractiveLabel onPress={()=>bottomSheet.current.open()}>{'More choices'}</AppInteractiveLabel>
+      <AppGenderIdentityToggle class='mb-16' />
+      <AppInteractiveLabel onPress={() => bottomSheet.current.open()}>{'More choices'}</AppInteractiveLabel>
    </View>;
 };

@@ -10,6 +10,7 @@ import { isIos, SCREEN_HEIGHT, SCREEN_WIDTH } from '../lib/utils/device';
 import { Keyboard, KeyboardAvoidingView, SafeAreaView, ScrollView, View } from 'react-native';
 import AppPageTransition, { IFadeInOutRefProps } from '../lib/common/components/AppPageTransition';
 import AppBottomSheet, { IBottomSheetRefProps } from '../lib/common/components/AppBottomSheet';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 // Ensure we import the CSS for Tailwind so it's included in hot module reloads.
 //@ts-ignore
@@ -35,27 +36,31 @@ export default function AppEntry() {
       return null;
    }
 
+   const queryClient = new QueryClient();
+
    return <>
       <AppPageTransition ref={pageTransitionRef} />
       <GlobalContextProvider pageTransitionRef={pageTransitionRef} bottomSheetRef={bottomSheetRef}>
-         <GestureHandlerRootView className='flex justify-center items-center'>
-            <KeyboardAvoidingView
-               behavior='height'
-            >
-               <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
-                  <SafeAreaView style={{ height: SCREEN_HEIGHT, width: SCREEN_WIDTH }}>
-                     <Stack screenOptions={{
-                        headerShown: false,
-                        header: () => null,
-                        contentStyle: { backgroundColor: 'white' }
-                     }}>
-                        <Tabs.Screen name='(auth)' />
-                     </Stack>
-                  </SafeAreaView>
-               </ScrollView>
-            </KeyboardAvoidingView>
-            <AppBottomSheet ref={bottomSheetRef} />
-         </GestureHandlerRootView>
+         <QueryClientProvider client={queryClient}>
+            <GestureHandlerRootView className='flex justify-center items-center'>
+               <KeyboardAvoidingView
+                  behavior='height'
+               >
+                  <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+                     <SafeAreaView style={{ height: SCREEN_HEIGHT, width: SCREEN_WIDTH }}>
+                        <Stack screenOptions={{
+                           headerShown: false,
+                           header: () => null,
+                           contentStyle: { backgroundColor: 'white' }
+                        }}>
+                           <Tabs.Screen name='(auth)' />
+                        </Stack>
+                     </SafeAreaView>
+                  </ScrollView>
+               </KeyboardAvoidingView>
+               <AppBottomSheet ref={bottomSheetRef} />
+            </GestureHandlerRootView>
+         </QueryClientProvider>
       </GlobalContextProvider>
    </>;
 }

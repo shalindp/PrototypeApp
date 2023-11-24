@@ -1,12 +1,12 @@
-import {ComponentState, IAppComponent} from '../../utils/interfaces';
-import React, {FC, useState} from 'react';
-import {TouchableOpacity} from 'react-native';
-import {AppColors} from '../../utils/constants/styles/AppColors';
-import {twMerge} from 'tailwind-merge';
-import {AppSpinner} from './AppSpinner';
-import {AppText} from './AppText';
-import {AppFont} from '../../utils/constants/styles/AppFont';
-import {AppFadeIn} from './AppFadeIn';
+import { ComponentState, IAppComponent } from '../../utils/interfaces';
+import React, { FC, useState } from 'react';
+import { TouchableOpacity } from 'react-native';
+import { AppColors } from '../../utils/constants/styles/AppColors';
+import { twMerge } from 'tailwind-merge';
+import { AppSpinner } from './AppSpinner';
+import { AppText } from './AppText';
+import { AppFont } from '../../utils/constants/styles/AppFont';
+import { AppFadeIn } from './AppFadeIn';
 
 export interface IAppButton extends IAppComponent {
     text: string;
@@ -17,9 +17,14 @@ export const AppButton: FC<IAppButton> = (props) => {
    const [state, sState] = useState<ComponentState>(props.state);
 
    const onClick = async () => {
-      sState(ComponentState.Loading);
-      await props.onClick();
-      sState(ComponentState.Default);
+      try{
+         sState(ComponentState.Loading);
+         await props.onClick();
+      }catch { /* empty */ }
+      finally {
+         sState(ComponentState.Default);
+      }
+      
    };
 
    return <TouchableOpacity

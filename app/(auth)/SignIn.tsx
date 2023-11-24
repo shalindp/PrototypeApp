@@ -12,8 +12,9 @@ import { AppInputField } from '../../lib/common/components/AppInputField';
 import { AppInteractiveLabel } from '../../lib/common/components/AppInteractiveLabel';
 import { AppButton } from '../../lib/common/components/AppButton';
 import { AppCheckBox } from '../../lib/common/components/AppCheckBox';
+import { useQuery } from 'react-query';
 const SignIn: React.FC = () => {
-   const {colorScheme: [cs, sCs], pageTransition} = useGlobalContext();
+   const {colorScheme: [cs, sCs], pageTransition, appApClient} = useGlobalContext();
 
    const router = useRouter();
 
