@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useRef } from 'react';
-import { ScrollView, View } from 'react-native';
+import React, { useCallback, useRef } from 'react';
+import { View } from 'react-native';
 import { GenderIdentity } from '../../lib/on-boarding/GenderIdentity';
 import { Age, IAgeRef } from '../../lib/on-boarding/Age';
 import { Interests } from '../../lib/on-boarding/Interests';
-import { isWeb, SCREEN_WIDTH } from '../../lib/utils/device';
+import { SCREEN_WIDTH } from '../../lib/utils/device';
 import { AppPaginationIndicator } from '../../lib/common/components/AppPaginationIndicator';
 import Animated, {
    useAnimatedRef,
@@ -11,7 +11,8 @@ import Animated, {
    useDerivedValue,
    useSharedValue
 } from 'react-native-reanimated';
-import {AppRoundedButton } from '../../lib/common/components/AppRoundedButton';
+import { AppRoundedButton } from '../../lib/common/components/AppRoundedButton';
+import { useGlobalContext } from '../../lib/common/contexts/GlobalContext';
 
 const Pages = [
    '1',
@@ -19,14 +20,12 @@ const Pages = [
    '3'
 ];
 const OnBoarding = () => {
+   const {userRef} = useGlobalContext();
+
+
+
    const translateXDelta = useSharedValue<number>(0);
    const scrollRef = useAnimatedRef<Animated.ScrollView>();
-
-   useEffect(() => {
-      // setTimeout(()=>{
-      //    scrollRef.current.scrollTo({ x: SCREEN_WIDTH * (activeIndex.value + 2) });
-      // },1000);
-   }, []);
 
    const ageRef = useRef<IAgeRef>(null);
 
@@ -41,14 +40,14 @@ const OnBoarding = () => {
    const onScroll = useCallback(() => {
       if(activeIndex.value === 1){
          // ageRef.current.getValue().error.current.setError('foo');
-         ageRef.current.getValue();
+         ageRef.current?.getValue();
          return;
       }
 
       if (activeIndex.value === Pages.length - 1) {
          return;
       }
-      scrollRef.current.scrollTo({ x: SCREEN_WIDTH * (activeIndex.value + 1) });
+      scrollRef.current?.scrollTo({ x: SCREEN_WIDTH * (activeIndex.value + 1) });
    }, []);
 
 

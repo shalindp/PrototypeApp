@@ -1,13 +1,7 @@
-import React, {ReactNode, useEffect, useRef} from 'react';
-import { TextInput, TouchableOpacity, Text, View, Image, TextInputProps } from 'react-native';
-import EmailIcon from '../icons/EmailIcon';
+import React, { useRef } from 'react';
+import { TextInput, TextInputProps, TouchableOpacity, View } from 'react-native';
 import { AppColors } from '../../utils/constants/styles/AppColors';
-import Animated, {
-   useAnimatedProps, useAnimatedStyle,
-   useSharedValue,
-   withTiming
-} from 'react-native-reanimated';
-import { AppInteractiveLabel } from './AppInteractiveLabel';
+import Animated, { useAnimatedProps, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { IAppComponent } from '../../utils/interfaces';
 import { useIconAnimationAdapter } from '../hooks/useIconAnimationAdapter';
 import { twMerge } from 'tailwind-merge';
@@ -51,6 +45,9 @@ export const AppInputField: React.FC<IAppInputField> = (props) => {
                ref={textInputRef}
                onFocus={onFocus}
                onChangeText={props.onChangeText}
+               autoCapitalize="none"
+               keyboardType={props.keyboardType}
+               secureTextEntry={props.secureTextEntry}
                onBlur={onBlur}
                //@ts-ignore
                style={{ outlineStyle: 'none', fontFamily: 'Satoshi-Medium', color: AppColors.stone[700] }}

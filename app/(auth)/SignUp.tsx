@@ -22,7 +22,7 @@ interface ISignUp {
 }
 
 const SignUp: React.FC = () => {
-   const { colorScheme: [cs, sCs], pageTransition, appApClient } = useGlobalContext();
+   const { colorSchemeState: [cs, sCs], pageTransitionRef, appApClient } = useGlobalContext();
    const router = useRouter();
 
    const formRef = useRef<ISignUpRequest>({ email: '', password: '' });
@@ -35,14 +35,12 @@ const SignUp: React.FC = () => {
       onError: (e) => errorRef.current?.setError(e.validationResult?.errorMessage),
       onSuccess: (s) => {
          errorRef.current?.setError('');
-         console.log(s);
+         pageTransitionRef.current?.transition(()=>router.push(AppRoute.OnBoarding));
       },
       isValidRef: isSchemaValidRef
    };
 
-   console.log('@> re-render');
-
-   const onSignupAsync = async () => {
+   const onSignUpAsync = async () => {
       const validateForm = AuthSchema.safeParse(formRef.current);
 
       if (!validateForm.success) {
@@ -69,12 +67,14 @@ const SignUp: React.FC = () => {
             <AppInputField
                prefix={EmailIcon}
                placeholder='email'
+               keyboardType="email-address"
                class='mb-8'
                onChangeText={(c) => formRef.current.email = c} />
             <AppInputField prefix={LockIcon}
                class='mb-8'
                placeholder='password'
                onChangeText={(c) => formRef.current.password = c}
+               secureTextEntry={true}
                postfix={
                   <AppInteractiveLabel
                      onPress={() => {
@@ -90,12 +90,12 @@ const SignUp: React.FC = () => {
                mutate={signUpMutation}
                class='mb-16'
                text='Join'
-               onClick={onSignupAsync}
+               onClick={onSignUpAsync}
             />
             <View className=''>
                <AppThirdPartyAuth prefixText='Or, Join with...' postfixText='Already have an account? '
                   postfixInlineSlot={<AppInteractiveLabel onPress={() => {
-                     pageTransition.current.transition(() => router.push(AppRoute.SignIn));
+                     pageTransitionRef.current?.transition(() => router.push(AppRoute.SignIn));
                   }}>{'Sign in.'}</AppInteractiveLabel>} />
             </View>
          </View>

@@ -1,7 +1,7 @@
 import React from 'react';
-import {Stack} from 'expo-router';
-import {AppRoute} from '../../lib/utils/constants/nav/routes';
-import {isIos, SCREEN_HEIGHT} from '../../lib/utils/device';
+import { Stack } from 'expo-router';
+import { AppRoute } from '../../lib/utils/constants/nav/routes';
+import { SCREEN_HEIGHT } from '../../lib/utils/device';
 
 const config = {
    animation: 'spring',
@@ -18,9 +18,8 @@ const config = {
 function _Layout() {
    return (
       <Stack screenOptions={{
-         animation: isIos? 'fade': 'none',
+         animation: 'none',
          animationDuration: 200,
-
          headerShown: false,
          header: ()=>null, contentStyle: {backgroundColor: 'white', height: SCREEN_HEIGHT}}}>
          <Stack.Screen options={{

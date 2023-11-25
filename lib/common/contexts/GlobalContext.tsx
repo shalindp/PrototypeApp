@@ -1,7 +1,7 @@
-import React, { createContext, PropsWithChildren, useContext, useEffect, useRef, useState } from 'react';
+import React, { createContext, PropsWithChildren, useContext, useRef, useState } from 'react';
 import { IFadeInOutRefProps } from '../components/AppPageTransition';
 import { IBottomSheetRefProps } from '../components/AppBottomSheet';
-import { Client } from '../../api/app/client';
+import { AuthenticationResponse, Client } from '../../api/app/client';
 import { buildAppApClient } from '../../api/app';
 
 export enum AppColorScheme {
@@ -9,19 +9,21 @@ export enum AppColorScheme {
    DARK = 'dark'
 }
 
-interface IGlobalContext {
-   colorScheme: [AppColorScheme, React.Dispatch<React.SetStateAction<AppColorScheme>>];
-   pageTransition: React.MutableRefObject<IFadeInOutRefProps>;
-   bottomSheet: React.MutableRefObject<IBottomSheetRefProps>;
 
+
+interface IGlobalContext {
+   colorSchemeState: [AppColorScheme, React.Dispatch<React.SetStateAction<AppColorScheme>>];
+   pageTransitionRef: React.MutableRefObject<IFadeInOutRefProps|null>;
+   bottomSheetRef: React.MutableRefObject<IBottomSheetRefProps|null>;
+   userRef:  React.MutableRefObject<AuthenticationResponse | null>;
    appApClient: Client;
 }
 
 const GlobalContext = createContext<IGlobalContext | undefined>(undefined);
 
 interface GlobalContextProviderProps extends PropsWithChildren {
-   pageTransitionRef: React.MutableRefObject<IFadeInOutRefProps>;
-   bottomSheetRef: React.MutableRefObject<IBottomSheetRefProps>;
+   pageTransitionRef: React.MutableRefObject<IFadeInOutRefProps|null>;
+   bottomSheetRef: React.MutableRefObject<IBottomSheetRefProps|null>;
 }
 
 export const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({
@@ -29,13 +31,15 @@ export const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({
    pageTransitionRef,
    bottomSheetRef
 }) => {
-   const colorScheme = useState<AppColorScheme>(AppColorScheme.LIGHT);
-      
+   const colorSchemeState = useState<AppColorScheme>(AppColorScheme.LIGHT);
+   const userRef = useRef<AuthenticationResponse|null>(null);
+
    return (
       <GlobalContext.Provider value={{
-         colorScheme,
-         pageTransition: pageTransitionRef,
-         bottomSheet: bottomSheetRef,
+         colorSchemeState,
+         pageTransitionRef,
+         bottomSheetRef,
+         userRef,
          appApClient: buildAppApClient()
       }}>
          {children}

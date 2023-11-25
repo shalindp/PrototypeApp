@@ -1,21 +1,21 @@
-import React, { forwardRef, ReactNode, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { Dimensions, View, ViewStyle, StyleSheet, ViewProps } from 'react-native';
+import React, { forwardRef, ReactNode, useCallback, useImperativeHandle, useState } from 'react';
+import { Dimensions, StyleSheet, View, ViewProps, ViewStyle } from 'react-native';
 import { AppRadii } from '../../utils/constants/styles/AppRadii';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
    Extrapolation,
-   interpolate, useAnimatedProps,
+   interpolate,
+   useAnimatedProps,
    useAnimatedStyle,
    useSharedValue,
-   withSpring, withTiming
+   withSpring,
+   withTiming
 } from 'react-native-reanimated';
 import { IAppComponent } from '../../utils/interfaces';
-import { AppText } from './AppText';
-import { areObjectEqual } from '../../utils/functions';
 import { AppColors } from '../../utils/constants/styles/AppColors';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
-const DELTA_Y_MAX = -SCREEN_HEIGHT;
+const DELTA_Y_MAX = -SCREEN_HEIGHT + 90;
 
 interface IBottomSheet extends IAppComponent {
 

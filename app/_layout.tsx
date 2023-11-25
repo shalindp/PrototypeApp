@@ -1,13 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useFonts } from 'expo-font';
 import '../global.css';
 import { Stack, Tabs } from 'expo-router';
 import { GlobalContextProvider } from '../lib/common/contexts/GlobalContext';
-import { AppText } from '../lib/common/components/AppText';
-import { twMerge } from 'tailwind-merge';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { isIos, SCREEN_HEIGHT, SCREEN_WIDTH } from '../lib/utils/device';
-import { Keyboard, KeyboardAvoidingView, SafeAreaView, ScrollView, View } from 'react-native';
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../lib/utils/device';
+import { KeyboardAvoidingView, SafeAreaView, ScrollView } from 'react-native';
 import AppPageTransition, { IFadeInOutRefProps } from '../lib/common/components/AppPageTransition';
 import AppBottomSheet, { IBottomSheetRefProps } from '../lib/common/components/AppBottomSheet';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -40,7 +38,7 @@ export default function AppEntry() {
 
    return <>
       <AppPageTransition ref={pageTransitionRef} />
-      <GlobalContextProvider pageTransitionRef={pageTransitionRef} bottomSheetRef={bottomSheetRef}>
+      <GlobalContextProvider pageTransitionRef={pageTransitionRef} bottomSheetRef={bottomSheetRef} >
          <QueryClientProvider client={queryClient}>
             <GestureHandlerRootView className='flex justify-center items-center'>
                <KeyboardAvoidingView
