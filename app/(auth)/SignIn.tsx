@@ -1,18 +1,19 @@
-import React, { useEffect, useRef } from 'react';
-import {View} from 'react-native';
-import {AppColorScheme, useGlobalContext} from '../../lib/common/contexts/GlobalContext';
-import {EmailIcon, LockIcon, Logo} from '../../lib/common/icons';
-import {AppText} from '../../lib/common/components/AppText';
-import {AppFont} from '../../lib/utils/constants/styles/AppFont';
-import {delay} from '../../lib/utils/functions';
-import {AppThirdPartyAuth} from '../../lib/common/components/AppThirdPartyAuth';
-import {router, useNavigation, useRouter} from 'expo-router';
-import {AppRoute} from '../../lib/utils/constants/nav/routes';
+import React from 'react';
+import { View } from 'react-native';
+import { useGlobalContext } from '../../lib/common/contexts/GlobalContext';
+import { EmailIcon, LockIcon, Logo } from '../../lib/common/icons';
+import { AppText } from '../../lib/common/components/AppText';
+import { AppFont } from '../../lib/utils/constants/styles/AppFont';
+import { delay } from '../../lib/utils/functions';
+import { AppThirdPartyAuth } from '../../lib/common/components/AppThirdPartyAuth';
+import { useRouter } from 'expo-router';
+import { AppRoute } from '../../lib/utils/constants/nav/routes';
 import { AppInputField } from '../../lib/common/components/AppInputField';
 import { AppInteractiveLabel } from '../../lib/common/components/AppInteractiveLabel';
 import { AppButton } from '../../lib/common/components/AppButton';
 import { AppCheckBox } from '../../lib/common/components/AppCheckBox';
-import { useQuery } from 'react-query';
+import { AppTextError } from '../../lib/common/components/AppTextError';
+
 const SignIn: React.FC = () => {
    const {colorScheme: [cs, sCs], pageTransition, appApClient} = useGlobalContext();
 
@@ -44,8 +45,9 @@ const SignIn: React.FC = () => {
                   </AppInteractiveLabel>
                }
             />
-            <AppCheckBox label='Remember me' class='self-end mb-8' onChange={() => {
+            <AppCheckBox label='Remember me' class='self-end mb-2' onChange={() => {
             }}/>
+            <AppTextError text='' class='self-center mb-8' ref={null} />
             <AppButton class='mb-16' text="Sign in" onClick={async () => {
                await delay(1000);
             }}/>

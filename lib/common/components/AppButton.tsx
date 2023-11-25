@@ -13,7 +13,7 @@ import { IMutate } from '../../api/app';
 export interface IAppButton extends IAppComponent {
    text: string;
    onClick: () => Promise<any>;
-   mutate?: IMutate<unknown, unknown, unknown, any>;
+   mutate?: IMutate<any, any, any, any>;
 }
 
 export const AppButton: FC<IAppButton> = (props) => {
@@ -28,10 +28,10 @@ export const AppButton: FC<IAppButton> = (props) => {
    const onClick = async () => {
       try {
          sState(ComponentState.Loading);
-         if (props.mutate) {
-            await mutateAsync(props.mutate.requestValues.current);
-         }
          await props.onClick();
+         if (props.mutate && props.mutate.isValidRef.current) {
+            await mutateAsync(props.mutate.requestValuesRef.current);
+         }
       } catch { /* empty */
       } finally {
          sState(ComponentState.Default);

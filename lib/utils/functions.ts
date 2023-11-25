@@ -11,10 +11,19 @@ export function withDarkMode(currentColorScheme: AppColorScheme, className: stri
    }
 }
 
-export const delay = (time:number)=>{
+export const delay = (time: number) => {
    return new Promise(r => setTimeout(r, time));
 };
 
-export const areObjectEqual= (o: any, u: any)=>{
+export const areObjectEqual = (o: any, u: any) => {
    return JSON.stringify(o) === JSON.stringify(u);
+};
+
+export const firstOrDefault = <T>(array: T[], predicate: (item: T) => boolean, defaultValue: T | null = null): T | null => {
+   const foundItem = array.find(predicate);
+   return foundItem !== undefined ? foundItem : defaultValue;
+};
+
+export const notNullOrUndefined = <T>(value: T)=>{
+   return !(value === undefined || value === null);
 };

@@ -1,29 +1,21 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { View } from 'react-native';
-import { AppColorScheme, useGlobalContext } from '../../lib/common/contexts/GlobalContext';
-import { SCREEN_HEIGHT } from '../../lib/utils/device';
+import { useGlobalContext } from '../../lib/common/contexts/GlobalContext';
 import { EmailIcon, LockIcon, Logo } from '../../lib/common/icons';
 import { AppText } from '../../lib/common/components/AppText';
 import { AppFont } from '../../lib/utils/constants/styles/AppFont';
-import { delay } from '../../lib/utils/functions';
 import { AppThirdPartyAuth } from '../../lib/common/components/AppThirdPartyAuth';
 import { useRouter } from 'expo-router';
 import { AppRoute } from '../../lib/utils/constants/nav/routes';
-import { AppFadeIn } from '../../lib/common/components/AppFadeIn';
 import { AppInteractiveLabel } from '../../lib/common/components/AppInteractiveLabel';
 import { AppInputField } from '../../lib/common/components/AppInputField';
 import { AppCheckBox } from '../../lib/common/components/AppCheckBox';
 import { AppButton } from '../../lib/common/components/AppButton';
-import {
-   AuthenticationResponse,
-   Client,
-   ISignUpRequest,
-   SignInRequest,
-   SignUpRequest,
-   ValidationResult
-} from '../../lib/api/app/client';
-import { useMutateWithNoReRender } from '../../lib/common/hooks/useMutateWithNoReRender';
+import { AuthenticationResponse, BadRequestResponse, ISignUpRequest, SignUpRequest } from '../../lib/api/app/client';
 import { IMutate } from '../../lib/api/app';
+import { AuthSchema } from '../../lib/utils/validations/auth';
+import { AppTextError, IAppTextErrorRef } from '../../lib/common/components/AppTextError';
+import { setErrorFromZod } from '../../lib/utils/validations';
 
 interface ISignUp {
 
@@ -33,16 +25,34 @@ const SignUp: React.FC = () => {
    const { colorScheme: [cs, sCs], pageTransition, appApClient } = useGlobalContext();
    const router = useRouter();
 
-   const form = useRef<ISignUpRequest>({ email: '', password: '' });
+   const formRef = useRef<ISignUpRequest>({ email: '', password: '' });
+   const isSchemaValidRef = useRef<boolean>(false);
+   const errorRef = useRef<IAppTextErrorRef>(null);
 
-   const signUpMutation: IMutate<SignUpRequest, ISignUpRequest, AuthenticationResponse, ValidationResult> ={
-      mutateFn: (r)=> appApClient.signUp(r),
-      requestValues: form,
-      onError: (e)=> console.log(e),
-      onSuccess: (s)=> console.log(s)
+   const signUpMutation: IMutate<SignUpRequest, ISignUpRequest, AuthenticationResponse, BadRequestResponse> = {
+      mutateFn: (r) => appApClient.signUp(r),
+      requestValuesRef: formRef,
+      onError: (e) => errorRef.current?.setError(e.validationResult?.errorMessage),
+      onSuccess: (s) => {
+         errorRef.current?.setError('');
+         console.log(s);
+      },
+      isValidRef: isSchemaValidRef
    };
 
-   console.log('@> render', signUpMutation);
+   console.log('@> re-render');
+
+   const onSignupAsync = async () => {
+      const validateForm = AuthSchema.safeParse(formRef.current);
+
+      if (!validateForm.success) {
+         setErrorFromZod(errorRef, validateForm.error.errors);
+         return;
+      }
+
+      isSchemaValidRef.current = true;
+   };
+
    return (
       <View
          className='dark w-full flex flex-col justify-start items-center h-full px-3 py-10 self-center'
@@ -60,11 +70,11 @@ const SignUp: React.FC = () => {
                prefix={EmailIcon}
                placeholder='email'
                class='mb-8'
-               onChangeText={(c) => form.current.email = c} />
+               onChangeText={(c) => formRef.current.email = c} />
             <AppInputField prefix={LockIcon}
                class='mb-8'
                placeholder='password'
-               onChangeText={(c) => form.current.password = c}
+               onChangeText={(c) => formRef.current.password = c}
                postfix={
                   <AppInteractiveLabel
                      onPress={() => {
@@ -73,12 +83,14 @@ const SignUp: React.FC = () => {
                   </AppInteractiveLabel>
                }
             />
-            <AppCheckBox label='Agree to terms & conditions' class='self-end mb-8' onChange={() => {
+            <AppCheckBox label='Agree to terms & conditions' class='self-end mb-2' onChange={() => {
             }} />
+            <AppTextError text='' class='self-center mb-8' ref={errorRef} />
             <AppButton
                mutate={signUpMutation}
-               class='mb-16' text='Join' onClick={async () => {
-               }}
+               class='mb-16'
+               text='Join'
+               onClick={onSignupAsync}
             />
             <View className=''>
                <AppThirdPartyAuth prefixText='Or, Join with...' postfixText='Already have an account? '
