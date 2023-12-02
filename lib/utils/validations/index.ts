@@ -1,11 +1,15 @@
-import { IAppTextErrorRef } from '../../common/components/AppTextError';
-import React from 'react';
-import { ZodIssue } from 'zod-validation-error';
-import { firstOrDefault, notNullOrUndefined } from '../functions';
+import { BadRequestResponse } from '../../api/app/client';
 
-export const setErrorFromZod = (errorRef: React.RefObject<IAppTextErrorRef>,  errors: ZodIssue[])=>{
-   if(errors.length> 0){
-      const errorMessage = firstOrDefault(errors, c=> notNullOrUndefined(c.message))?.message;
-      errorRef.current?.setError(errorMessage);
+const GENERIC_ERROR = 'Sorry, something went wrong. Please try again.';
+
+export const parseError = (badRequestResponse: BadRequestResponse) => {
+   try {
+      if (badRequestResponse && badRequestResponse.validationResult?.errorMessage) {
+         return badRequestResponse.validationResult.errorMessage;
+      } else {
+         return GENERIC_ERROR;
+      }
+   } catch (e) {
+      return GENERIC_ERROR;
    }
 };

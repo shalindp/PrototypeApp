@@ -22,7 +22,7 @@ interface IBottomSheet extends IAppComponent {
 }
 
 export interface IBottomSheetRefProps {
-   open: () => void;
+   open: (snapPoint?: number) => void;
    setContent: (content: ReactNode) => void;
 }
 
@@ -58,11 +58,19 @@ const AppBottomSheet = forwardRef<IBottomSheetRefProps, IBottomSheet>((props, re
          }
       });
 
-   const open = () => {
+   const open = (snapPoint?: number) => {
       if (isOpen.value) {
          snapTo(0);
       } else {
-         snapTo(-SCREEN_HEIGHT / 3);
+         if(snapPoint === 1){
+            snapTo(-SCREEN_HEIGHT / 2);
+         }else if(snapPoint === 2){
+            snapTo(DELTA_Y_MAX);
+         }
+         else{
+            snapTo(-SCREEN_HEIGHT / 3);
+         }
+
       }
    };
 
@@ -90,6 +98,10 @@ const AppBottomSheet = forwardRef<IBottomSheetRefProps, IBottomSheet>((props, re
       };
    }, []);
 
+   const rContentContainerStyle = useAnimatedStyle(()=>{
+      return { height: Math.abs(yDelta.value) - 95 };
+   },[]);
+
    const rBackdropProps = useAnimatedProps<Partial<Animated.AnimateProps<ViewProps>>>(() => {
       return {
          pointerEvents: isOpen.value ? 'auto' : 'none'
@@ -109,12 +121,14 @@ const AppBottomSheet = forwardRef<IBottomSheetRefProps, IBottomSheet>((props, re
                width: '100%',
                position: 'absolute',
                top: SCREEN_HEIGHT,
-               backgroundColor: AppColors.stone[150]
+               backgroundColor: AppColors.stone[150],
             }, animStyles]}>
             <View
                className='bg-stone-500 w-20 h-1 my-5 rounded-full self-center'
             />
-            {content}
+            <Animated.View style={rContentContainerStyle}>
+               {content}
+            </Animated.View>
          </Animated.View>
       </GestureDetector>
    </>;

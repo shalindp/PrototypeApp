@@ -15,7 +15,7 @@ import { AppTextError, IAppTextErrorRef } from '../../lib/common/components/AppT
 import { AuthenticationResponse, BadRequestResponse, ISignInRequest, SignInRequest } from '../../lib/api/app/client';
 import { IMutate } from '../../lib/api/app';
 import { AuthSchema } from '../../lib/utils/validations/auth';
-import { setErrorFromZod } from '../../lib/utils/validations';
+import { parseError } from '../../lib/utils/validations';
 
 const SignIn: React.FC = () => {
    const router = useRouter();
@@ -28,21 +28,20 @@ const SignIn: React.FC = () => {
    const signInMutation: IMutate<SignInRequest, ISignInRequest, AuthenticationResponse, BadRequestResponse> = {
       mutateFn: (c) => appApClient.signIn(c),
       requestValuesRef: formRef,
-      onError: (e) => errorRef.current?.setError(e.validationResult?.errorMessage),
+      onError: (e) => errorRef.current?.setError(parseError(e)),
       onSuccess: (c) => {
-         // errorRef.current?.setError('');
-         // userRef.current = c;
-         // pageTransitionRef.current?.transition(()=>router.push(AppRoute.OnBoarding));
+         errorRef.current?.setError('');
+         userRef.current = c;
+         pageTransitionRef.current?.transition(()=>router.push(AppRoute.OnBoarding));
       },
       isValidRef: isSchemaValidRef
    };
 
    const onSignInAsync = async () => {
-      errorRef.current?.setError('');
       const validateForm = AuthSchema.safeParse(formRef.current);
+      errorRef.current?.setError('');
 
       if (!validateForm.success) {
-         setErrorFromZod(errorRef, validateForm.error.errors);
          return;
       }
 

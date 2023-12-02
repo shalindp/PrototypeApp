@@ -15,14 +15,19 @@ import { AuthenticationResponse, BadRequestResponse, ISignUpRequest, SignUpReque
 import { IMutate } from '../../lib/api/app';
 import { AuthSchema } from '../../lib/utils/validations/auth';
 import { AppTextError, IAppTextErrorRef } from '../../lib/common/components/AppTextError';
-import { setErrorFromZod } from '../../lib/utils/validations';
 
 interface ISignUp {
 
 }
 
 const SignUp: React.FC = () => {
-   const { colorSchemeState: [cs, sCs], pageTransitionRef, appApClient } = useGlobalContext();
+   const {
+      userRef,
+      colorSchemeState: [colorScheme, sColorScheme],
+      pageTransitionRef,
+      appApClient
+   } = useGlobalContext();
+
    const router = useRouter();
 
    const formRef = useRef<ISignUpRequest>({ email: '', password: '' });
@@ -30,12 +35,13 @@ const SignUp: React.FC = () => {
    const errorRef = useRef<IAppTextErrorRef>(null);
 
    const signUpMutation: IMutate<SignUpRequest, ISignUpRequest, AuthenticationResponse, BadRequestResponse> = {
-      mutateFn: (r) => appApClient.signUp(r),
+      mutateFn: (c) => appApClient.signUp(c),
       requestValuesRef: formRef,
       onError: (e) => errorRef.current?.setError(e.validationResult?.errorMessage),
-      onSuccess: (s) => {
+      onSuccess: (c) => {
          errorRef.current?.setError('');
-         pageTransitionRef.current?.transition(()=>router.push(AppRoute.OnBoarding));
+         userRef.current = c;
+         pageTransitionRef.current?.transition(() => router.push(AppRoute.OnBoarding));
       },
       isValidRef: isSchemaValidRef
    };
@@ -44,7 +50,6 @@ const SignUp: React.FC = () => {
       const validateForm = AuthSchema.safeParse(formRef.current);
 
       if (!validateForm.success) {
-         setErrorFromZod(errorRef, validateForm.error.errors);
          return;
       }
 
@@ -67,7 +72,7 @@ const SignUp: React.FC = () => {
             <AppInputField
                prefix={EmailIcon}
                placeholder='email'
-               keyboardType="email-address"
+               keyboardType='email-address'
                class='mb-8'
                onChangeText={(c) => formRef.current.email = c} />
             <AppInputField prefix={LockIcon}

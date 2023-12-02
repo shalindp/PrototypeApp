@@ -5,7 +5,6 @@ import { IAppComponent } from '../utils/interfaces';
 import { twMerge } from 'tailwind-merge';
 import { AppText } from '../common/components/AppText';
 import { AppInputField } from '../common/components/AppInputField';
-import { EmailIcon } from '../common/icons';
 import { Ionicons } from '@expo/vector-icons';
 
 interface IInterests extends IAppComponent {
@@ -19,7 +18,10 @@ export const Interests: FC<IInterests> = (props) => {
       className={twMerge('flex justify-center items-center -mt-16', props.class)}
       style={{ height: SCREEN_HEIGHT, width: SCREEN_WIDTH }}>
       <View className='w-full px-8'>
-         <AppInputField placeholder='hiking' class='mb-8' onChangeText={(c)=>sInterests((p=>([...p, c])))} />
+         <AppInputField
+            placeholder='hiking' class='mb-8'
+            onChangeText={(c)=>sInterests((p=>([...p, c])))}
+         />
          <View className='flex flex-row flex-wrap'>
             {interests.map((c, i)=>{
                return <TouchableOpacity

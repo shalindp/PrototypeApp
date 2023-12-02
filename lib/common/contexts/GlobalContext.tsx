@@ -9,8 +9,6 @@ export enum AppColorScheme {
    DARK = 'dark'
 }
 
-
-
 interface IGlobalContext {
    colorSchemeState: [AppColorScheme, React.Dispatch<React.SetStateAction<AppColorScheme>>];
    pageTransitionRef: React.MutableRefObject<IFadeInOutRefProps|null>;

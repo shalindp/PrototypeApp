@@ -1,23 +1,19 @@
 import React, { FC } from 'react';
-import { View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
-import { ListRenderItem } from '@shopify/flash-list/src/FlashListProps';
 import { AppText } from '../common/components/AppText';
-
-type GenderItem = {
-   id: number,
-   label: string
-}
+import { GenderIdentityResponse } from '../api/app/client';
+import { TouchableOpacity, View } from 'react-native';
 
 interface IGenderList {
-   items: Array<GenderItem>;
+   items: Array<GenderIdentityResponse>;
 }
 
 export const GenderList: FC<IGenderList> = (props) => {
-   return <FlashList
+   return <View className="flex flex-1"><FlashList
       scrollEnabled={true}
-      showsVerticalScrollIndicator={false}
+      showsVerticalScrollIndicator={true}
       data={props.items}
-      renderItem={({ item }) => <AppText class="bg-red-500 py-10">{item.label}</AppText>}
-   />;
+      estimatedItemSize={10}
+      renderItem={({ item }) => <TouchableOpacity><AppText class="pb-4 px-4 text-[18px]">{item.value}</AppText></TouchableOpacity>}
+   /></View>;
 };
