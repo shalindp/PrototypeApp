@@ -16,7 +16,7 @@ interface OnBoardingContextProviderProps extends PropsWithChildren {
 export const OnBoardingContextProvider: React.FC<OnBoardingContextProviderProps> = ({
    children
 }) => {
-   const { appApClient } = useGlobalContext();
+   const { appApClient, pageTransitionRef } = useGlobalContext();
 
    const gendersQuery = useQuery({ queryKey: ['genders'], queryFn: () => appApClient.getGenderIdentities() });
 

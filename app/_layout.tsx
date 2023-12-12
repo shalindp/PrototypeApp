@@ -4,7 +4,7 @@ import '../global.css';
 import { Stack, Tabs } from 'expo-router';
 import { GlobalContextProvider } from '../lib/common/contexts/GlobalContext';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../lib/utils/device';
+import { isAndroid, SCREEN_HEIGHT, SCREEN_WIDTH } from '../lib/utils/device';
 import { KeyboardAvoidingView, SafeAreaView, ScrollView } from 'react-native';
 import AppPageTransition, { IFadeInOutRefProps } from '../lib/common/components/AppPageTransition';
 import AppBottomSheet, { IBottomSheetRefProps } from '../lib/common/components/AppBottomSheet';
@@ -45,9 +45,10 @@ export default function AppEntry() {
                   behavior='height'
                >
                   <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
-                     <SafeAreaView style={{ height: SCREEN_HEIGHT, width: SCREEN_WIDTH }}>
+                     <SafeAreaView style={{ height: SCREEN_HEIGHT, width: SCREEN_WIDTH, marginBottom: isAndroid ? 40: 0 }}>
                         <Stack screenOptions={{
                            headerShown: false,
+                           animation: 'none',
                            header: () => null,
                            contentStyle: { backgroundColor: 'white' }
                         }}>

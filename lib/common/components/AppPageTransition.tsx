@@ -1,19 +1,18 @@
 import Animated, { runOnJS, useSharedValue, withTiming } from 'react-native-reanimated';
-import { FC, forwardRef, PropsWithChildren, ReactNode, Ref, useEffect, useImperativeHandle } from 'react';
-import React from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle } from 'react';
 import { IAppComponent } from '../../utils/interfaces';
-import { twMerge } from 'tailwind-merge';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../utils/device';
 import { AppColors } from '../../utils/constants/styles/AppColors';
 
 export interface IFadeInOutRefProps {
-   transition: (cb: ()=>void) => void;
+   transition: (cb: ()=>void, duration?: number) => void;
+   transitionIn: () => void;
 }
 
 interface IFadeInOutProps extends IAppComponent {
 }
 
-const DURATION = 650;
+const DURATION = 500;
 // eslint-disable-next-line react/display-name
 const AppPageTransition = forwardRef<IFadeInOutRefProps, IFadeInOutProps>((props, ref) => {
    const opacityDelta = useSharedValue<number>(1);
@@ -22,19 +21,20 @@ const AppPageTransition = forwardRef<IFadeInOutRefProps, IFadeInOutProps>((props
       transitionMount();
    }, []);
 
-   const transition = (cb: ()=>void) => {
+   const transition = (cb: ()=>void, duration?:number) => {
       const wrapper = ()=>{
          cb();
          transitionMount();
       };
-      opacityDelta.value = withTiming(1, {duration: DURATION}, () => runOnJS(wrapper)());
+
+      opacityDelta.value = withTiming(1, {duration: duration || DURATION}, () => runOnJS(wrapper)());
    };
 
    const transitionMount = () => {
       opacityDelta.value = withTiming(0, {duration: DURATION});
    };
 
-   useImperativeHandle(ref, () => ({ transition }), []);
+   useImperativeHandle(ref, () => ({ transition, transitionIn: transitionMount }), []);
 
    return <Animated.View
       className={props.class}

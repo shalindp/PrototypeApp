@@ -61,7 +61,7 @@ const SignUp: React.FC = () => {
          className='dark w-full flex flex-col justify-start items-center h-full px-3 py-10 self-center'
          style={{ maxWidth: 450 }}
       >
-         <View className='mb-16'>
+         <View className='mb-5'>
             <Logo width={42} height={42} />
          </View>
          <View className='self-start flex flex-col gap-y-2 mb-16'>
